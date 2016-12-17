@@ -7,3 +7,4 @@
 /springbootDemo/.idea
 /springbootDemo/*.iml
 /*.bak
+/springbootDemo/.idea/*
