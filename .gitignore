@@ -8,3 +8,6 @@
 /springbootDemo/*.iml
 /*.bak
 /springbootDemo/.idea/*
+/jerseytest/.idea
+/jerseytest/*.iml
+/jerseytest/target
