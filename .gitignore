@@ -11,3 +11,6 @@
 /jerseytest/.idea
 /jerseytest/*.iml
 /jerseytest/target
+/jacksontest/.idea
+/jacksontest/target
+/jacksontest/*.iml
