@@ -8,7 +8,6 @@ public class Birthday {
     private String birthday;
 
     public Birthday(String birthday) {
-        super();
         this.birthday = birthday;
     }
 

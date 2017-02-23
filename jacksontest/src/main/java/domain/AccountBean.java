@@ -1,5 +1,8 @@
 package domain;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonUnwrapped;
+
 /**
  * Created by tanghao on 2017/2/22.
  */
@@ -9,6 +12,7 @@ public class AccountBean {
     private String name;
     private String email;
     private String address;
+    @JsonProperty("Birthday")
     private Birthday birthday;
 
 

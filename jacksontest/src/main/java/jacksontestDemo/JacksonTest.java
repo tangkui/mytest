@@ -1,4 +1,5 @@
 package jacksontestDemo;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import domain.AccountBean;
+import domain.Birthday;
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
@@ -28,15 +30,16 @@ public class JacksonTest {
     private JsonGenerator jsonGenerator = null;
     private ObjectMapper objectMapper = null;
     private AccountBean bean = null;
-
+    private Birthday birthday = null;
     @Before
     public void init() {
         bean = new AccountBean();
+        birthday = new Birthday("1205");
         bean.setAddress("js_wuxi");
         bean.setEmail("bugyun@hotmail.com");
         bean.setId(1);
         bean.setName("bugyun");
-
+        bean.setBirthday(birthday);
         objectMapper = new ObjectMapper();
         try {
             jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(System.out, JsonEncoding.UTF8);
@@ -92,6 +95,7 @@ public class JacksonTest {
 
             System.out.println("\nObjectMapper");
             objectMapper.writeValue(System.out, bean);
+            objectMapper.writeValue(new File("C:\\Users\\tanghao\\Desktop\\account.json"),bean);
         } catch (IOException e) {
             e.printStackTrace();
         }
