@@ -1,0 +1,135 @@
+JackSon框架基础
+
+    1、jackson框架是基于java平台的一套数据处理工具，被称为最好的Java json解析器。
+
+
+    2、核心包：jackson-core-2.5.3.jar
+               jackson-annotations-2.5.3.jar
+               jackson-databind-2.5.3.jar
+
+
+    3、Jackson提供了三种可选处理json的方法：
+                Streaming API：效率高，开销低，读写速度快，代码编写复杂度高
+                Tree Model：灵活
+                Data Binding：最常用
+
+
+    4、区别：
+                1）Data Binding：
+                     ObjectMapper类：
+                        序列化与反序列化映射器
+                     序列化常用方法：
+                        public void writeValue(OutputStream out, Object value)
+                     序列化时，配置mapper忽略空属性：
+                        objectmapper.setSerializationInclusion(Include.NON_EMPTY);
+                        public ObjectMapper setSerializationInclusion(Inclusion incl)
+                     反序列化常用方法：
+                        public <T> T readValue(String content, Class<T> valueType)
+                     反序列化时，禁用未知属性打断反序列化功能：
+                        objectmapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                        public ObjectMapper disable(org.codehaus.jackson.map.SerializationConfig.Feature... f)
+
+                 2）Tree Model：
+                        序列化流程：
+                            JsonNodeFactory：factory节点工厂，可以提供所有的节点。
+                            JsonFactory：json factory来写tree modle为json
+                            JsonGenerator：json生成器
+                                获取：JsonGenerator generator = jsonFactory.createGenerator(new FileWriter(new File("country2.json")));
+                            默认情况下对象映射器不会指定根节点，下面设根节点为country
+                                ObjectMapper mapper = new ObjectMapper();
+                                ObjectNode country = factory.objectNode();
+                            序列化方法：
+                                objectmapper.writeTree(generator, country);
+                                public abstract void writeTree(JsonGenerator jgen, JsonNode rootNode)
+
+                        反序列化流程：
+                            Jackson提供一个树节点被称为"JsonNode",ObjectMapper提供方法来读json作为树的JsonNode根节点
+                                JsonNode node = objectmapper.readTree(new File("country2.json"));
+                            获取节点名称：
+                                JsonNode country_id = node.get("country_id");
+                            获取节点类型
+                                country_id.getNodeType();
+
+                 3)Streaming API：
+                        序列化：
+                            JsonGenerator jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(System.out, JsonEncoding.UTF8);
+                        设置格式：
+                            jsonGenerator.writeStartObject();//{
+                            jsonGenerator.writeObjectFieldStart("user");//user:{
+                            jsonGenerator.writeStringField("name", "jackson");//name:jackson
+                            jsonGenerator.writeBooleanField("sex", true);//sex:true
+                            jsonGenerator.writeNumberField("age", 22);//age:22
+                            jsonGenerator.writeEndObject();//}
+
+                        反序列化：
+                            Jackson API提供了token对每个Json对象，例如，Json开始符号“{”是token指向的第一个解析的对象，
+                            key:value键值对是另一个单独的对象。这个API很强大，但也需要编写大量代码。
+                            从JsonFactory创建JsonParser解析器的实例：
+                                 JsonParser parser = factory.createParser(new File("country3.json"));
+                            遍历token：
+                                  while (!parser.isClosed()) {
+                                        // 得到一个token,第一次遍历时，token指向json文件中第一个符号"{"
+                                        JsonToken token = parser.nextToken();
+                                        if (token == null) {
+                                            break;
+                                        }
+                             查找节点，并设置token将要指向的节点：
+                                 http://blog.csdn.net/java_huashan/article/details/46375857
+
+    5、常用注解：
+              @JsonProperty("xxx"):  将当前的属性名在json字符串中重新命名为当前设置的这个值
+              @JsonIgnore    将被标注的属性在生成json字符串的时候，直接忽略
+              @JsonInclude  是一个类级别的设置，JsonInclude.Include.NON_EMPTY标识只有非NULL的值才会被纳入json string之中，其余的都被忽略。
+              @JsonRootName(value="rootNode")   使用在类上，标注为该类在转换为json string的时候，需要新增一个根节点rootNode.
+              @JsonSerialize 使用自定义的类来实现自定义的字段转换。写入操作。
+              @JsonDeserialize 解析的时候，自定义的转换器；读取操作。
+              @JsonAutoDetect: 设置类的访问策略，是否所有的属性都可以，还是按照一定的方式来提取。
+              @JsonRawValue:   无转换的将属性值写入到json 字符串中。 写入操作
+              @JsonValue:     标注方法，用以替代缺省的方法，由该方法来完成json的字符输出。
+
+
+    6、注意：
+            1）被序列化的bean的private属性字段需要创建getter方法或者属性字段应该为public
+            2）在Java中，List和Array转化为json后对应的格式符号都是"obj:[]"
+
+
+    7、总结：
+           Jackson提供了三种可选的JSON处理方法（一种方式及其两个变型）：
+           Stream API、DataBinding、TreeModel。
+
+           Stream API开销最低、效率最高、编写代码复杂度高，在生成json时，需要逐步编写符号和字段拼接json，需要根据token指向查找json值，生成和解析不是很方便，可读性低，不建议使用。
+           DataBinding处理Json是最常用的json处理方式，生成json时，创建相关的java对象，并根据json内容结构把java对象组装起来，最后调用writeValue方法即可生成json。解析时，就更简单了，直接把json映射到相关的java对象，然后就可以遍历java对象来获取值了。
+           TreeModel处理Json，是以树型结构来生成和解析json，生成json时，根据json内容结构，我们创建不同类型的节点对象，组装这些节点生成json。解析json时，它不需要绑定json到java bean，根据json结构，使用path或get方法轻松查找内容。
+
+           DataBinding和TreeModel基于Stream API实现。
+
+           流式 API：（也称为"增量分析/生成"） 读取和写入 JSON 内容作为离散事件。
+
+           org.codehaus.jackson.JsonParser 读， org.codehaus.jackson.JsonGenerator 写。
+
+           StAX API 的激励。
+
+           树模型 ：提供一个 JSON 文档可变内存树的表示形式。
+
+           org.codehaus.jackson.map.ObjectMapper 生成树 ；树组成 JsonNode 节点集。
+
+           树模型类似于 XML DOM。
+           数据绑定： JSON和POJO相互转换，基于属性访问器规约或注解。
+
+           有 两种变体： 简单 和 完整 的数据绑定：
+
+           简单数据绑定： 是指从Java Map、List、String、Numbers、Boolean和空值进行转换
+
+           完整数据绑定 ：是指从任何 Java bean 类型 （及上文所述的"简单"类型） 进行转换
+
+           org.codehaus.jackson.map.ObjectMapper 对两个变种，进行编组（marshalling ）处理 （写入 JSON） 和反编组（unmarshalling ，读 JSON）。
+
+           JAXB激励下的基于注释的 （代码优先）变种。
+
+           从使用的角度来看，总结这些3 种方法的用法如下：
+
+           流 API： 性能最佳的方式 （最低开销、 速度最快的读/写； 其它二者基于它实现）。
+
+           数据绑定 ：使用最方便的方式。
+
+           树模型： 最灵活的方式。

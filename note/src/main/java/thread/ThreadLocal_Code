@@ -1,0 +1,39 @@
+首先明确一个概念，那就是ThreadLocal并不是用来并发控制访问一个共同对象，而是为了给每个线程分配一个只属于该线程的对象（这么粗暴的解释可能还不太准确），
+更准确的说是为了实现线程间的数据隔离。而ThreadLocal应用场景更多是想共享一个变量，但是该变量又不是线程安全的，那么可以用ThreadLocal维护一个线程一个实例。
+有时候ThreadLocal也可以用来避免一些参数传递，通过ThreadLocal来访问对象。
+
+首先我们先看下ThreadLocal（jdk1.7）内部的实现：
+ThreadLocal get方法
+
+  public T get() {
+  Thread t = Thread.currentThread();
+  ThreadLocalMap map = getMap(t);
+  if (map != null) {
+    ThreadLocalMap.Entry e = map.getEntry(this);
+    if (e != null)
+      return (T)e.value;
+  }
+  return setInitialValue();
+}
+
+ThreadLocal set方法
+
+ public void set(T value) {
+  Thread t = Thread.currentThread();
+  ThreadLocalMap map = getMap(t);
+  if (map != null)
+    map.set(this, value);
+  else
+    createMap(t, value);
+}
+get和set方法是ThreadLocal类中最常用的两个方法。
+
+get方法
+
+代码很容易理解，首先我们通过Thread.currentThread得到当前线程，然后获取当前线程的threadLocals变量，这个变量就是ThreadLocalMap类型的。
+然后根据当前的ThreadLocal实例作为key，获取到Entry对象。
+
+set方法
+
+代码同样很容易理解。同样根据Thread.currentThread得到当前线程，如果当前线程存在threadLocals这个变量不为空，
+那么根据当前的ThreadLocal实例作为key寻找在map中位置，然后用新的value值来替换旧值。
