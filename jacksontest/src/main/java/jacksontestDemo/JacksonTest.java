@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import domain.AccountBean;
 import domain.Birthday;
 import org.codehaus.jackson.JsonEncoding;
@@ -92,14 +96,16 @@ public class JacksonTest {
         try {
             System.out.println("jsonGenerator");
             jsonGenerator.writeObject(bean);
-
+            JsonNodeFactory factory = new JsonNodeFactory(false);
             System.out.println("\nObjectMapper");
             objectMapper.writeValue(System.out, bean);
-            objectMapper.writeValue(new File("C:\\Users\\tanghao\\Desktop\\account.json"),bean);
+            this.objectMapper.writeValue(new File("C:\\Users\\tanghao\\Desktop\\account.json"),bean);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 
     /**
