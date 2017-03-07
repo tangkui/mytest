@@ -2,6 +2,7 @@ package httpserver_jersey;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -53,7 +54,9 @@ public class MyResource {
             @DefaultValue("Just a Test !") @QueryParam("desc") String description,
             @Context Request request,
             @Context UriInfo uriInfo,
-            @Context HttpHeaders httpHeaders){
+            @Context HttpHeaders httpHeaders
+            ){
+
 
         System.out.println("###############this.hashCode:##########"+this.hashCode());
 
