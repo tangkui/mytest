@@ -17,3 +17,8 @@
 /threadtest/*.iml
 /threadtest/target
 /threadtest/.idea
+/weixin-java-tools-master/*.iml
+/note/*.iml
+/note/.idea
+/note/target
+/weixin-java-tools-master/*.yml
