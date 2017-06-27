@@ -12,7 +12,8 @@ public class Employee implements Serializable {
     public transient int SSN;
     public int number;
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
