@@ -18,7 +18,6 @@ public class PriorityThread implements Runnable{
         Thread thread1 = new Thread(new PriorityThread(),"Thread1");
         Thread thread2 = new Thread(new PriorityThread(),"Thread2");
         Thread thread3 = new Thread(new PriorityThread(),"Thread3");
-
         //设置优先级
         thread1.setPriority(Thread.MAX_PRIORITY);
         thread2.setPriority(8);
