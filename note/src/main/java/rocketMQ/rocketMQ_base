@@ -1,0 +1,28 @@
+RocketMQ介绍：
+
+    RocketMQ是一个纯java、分布式、队列模型的开源消息中间件，前身是Metaq，当Metaq3.0发布时，产品名称改为RocketMQ。
+
+    具有以下特点：
+
+        1、能够保证严格的消息顺序；
+        2、提供丰富的消息拉取模式
+        3、高效的订阅者水平扩展能力
+        4、实时的消息订阅机制
+        5、亿级消息堆积能力
+
+    基本概念：
+
+         Produce：消息生产者，负责生产消息，一般由业务系统产生消息
+         Consumer：消息消费者，负责消费消息，一般是后台系统负责异步消费
+         Push Consumer：Conusmer的一种，应用通常向Consumer对象注册一个Listener，一旦收到消息，Consumer对象立刻回调Listener接口方法
+         Pull Consumer：Consumer的一种，应用通常主动调用Consumer的拉消息方法从Broker拉消息，主动权由应用控制
+         Producer Group：类Producer的集合名称，这类Consumer通常发送一类消息，且发送逻辑一致
+         Consumer Group：类Consumer的集合名称，这类Consumer通常消费一类消息，且消费逻辑一致
+         Broker：消息中转角色，负责存储消息，转发消息，一般也成为Server
+         长连接：在页面嵌入一个隐藏的Iframe，将这个隐藏的Iframe的src属性设置为对一个长连接的请求或是采用xhr请求，服务器端就源源不断的向客户局端输入数据。
+
+
+
+
+
+

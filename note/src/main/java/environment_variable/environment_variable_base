@@ -1,0 +1,37 @@
+classpath、path、JAVA_HOME的作用及JAVA环境变量配置
+
+
+
+CLASSPATH是什么？它的作用是什么？
+
+它是javac编译器的一个环境变量。它的作用与import、package关键字有关。当你写下improt java.util.*时，编译器面对import关键字时，就知道你要引入java.util这个package中的类；但是编译器如何知道你把这个package放在哪里了呢？所以你首先得告诉编译器这个package的所在位置；如何告诉它呢？就是设置CLASSPATH啦 :) 如果java.util这个package在c:/jdk/ 目录下，你得把c:/jdk/这个路径设置到CLASSPATH中去！当编译器面对import java.util.*这个语句时，它先会查找CLASSPATH所指定的目录，并检视子目录java/util是否存在，然后找出名称吻合的已编译文件（.class文件）。如果没有找到就会报错！CLASSPATH有点像c/c++编译器中的INCLUDE路径的设置哦，是不是？当c/c++编译器遇到include 这样的语句，它是如何运作的？哦，其实道理都差不多！搜索INCLUDE路径，检视文件！当你自己开发一个package时，然后想要用这个package中的类；自然，你也得把这个package所在的目录设置到CLASSPATH中去！CLASSPATH的设定，对JAVA的初学者而言是一件棘手的事。所以Sun让JAVA2的JDK更聪明一些。你会发现，在你安装之后，即使完全没有设定CLASSPATH，你仍然能够编译基本的JAVA程序，并且加以执行。
+
+.....................................................................................................................................................
+
+1. PATH环境变量。作用是指定命令搜索路径，在命令行下面执行命令如javac编译java程序时，它会到PATH变量所指定的路径中查找看是否能找到相应的命令程序。我们需要把jdk安装目录下的bin目录增加到现有的PATH变量中，bin目录中包含经常要用到的可执行文件如javac/java/javadoc等待，设置好PATH变量后，就可以在任何目录下执行javac/java等工具了。我们这里设定的PATH值为：
+
+%SystemRoot%/system32;%SystemRoot%;%SystemRoot%/System32/Wbem;%SYSTEMROOT%/System32/WindowsPowerShell/v1.0/;C:/Program Files/Common Files/Thunder Network/KanKan/Codecs;C:/Program Files/Microsoft SQL Server/90/Tools/binn/;C:/Program Files/Common Files/TTKN/Bin;C:/Program Files/Common Files/Teleca Shared;C:/Program Files/Java/jdk1.6.0_21/bin
+
+上述只有;C:/Program Files/Java/jdk1.6.0_21/bin是java的PATH变量，注意变量之间需要用";”隔开。
+
+2. CLASSPATH环境变量。作用是指定类搜索路径，要使用已经编写好的类，前提当然是能够找到它们了，JVM就是通过CLASSPATH来寻找类的。我们需要把jdk安装目录下的lib子目录中的dt.jar和tools.jar设置到CLASSPATH中，当然，当前目录“.”也必须加入到该变量中。这里CLASSPATH为：
+
+.;C:/Program Files/Java/jdk1.6.0_21/lib/dt.jar;C:/Program Files/Java/jdk1.6.0_21/lib/tools.jar
+
+3. JAVA_HOME环境变量。它指向jdk的安装目录，Eclipse/NetBeans/Tomcat等软件就是通过搜索JAVA_HOME变量来找到并使用安装好的jdk。这里JAVA_HOME为：
+
+C:/Program Files/Java/jdk1.6.0_21
+
+.....................................................................................................................................................
+
+java环境变量配置步骤：
+
+在windows桌面上右击“我的电脑” —> “属性” —> “高级” —> “环境变量”，在“系统变量”里我们可以看到系统的各个环境变量的值。双击某个变量名可以修改变量值，变量值之间用“;”隔开。我们还可以“新建”原先没有的变量。与jdk有关的有3个环境变量；“JAVA_HOME”，“PATH”，“CLASSPATH”。我的系统中“PATH”变量已经存在，可以直接添加新值（其它变量值不要动，防止其它程序运行异常），其它两个变量需要新建。
+
+CLASSPATH= .;%JAVA_HOME%/lib/dt.jar;%JAVA_HOME%/lib/tools.jar
+
+JAVA_HOME = C:/Program Files/Java/jdk1.5.0
+
+PATH  = %JAVA_HOME%/bin;%JAVA_HOME%/jre/bin
+
+从上面我们可以看出，PATH和CLASSPATH都使用到了JAVA_HOME，也可以使用绝对路径，两者皆可。

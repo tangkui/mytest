@@ -1,0 +1,48 @@
+代理模式：
+
+     代理模式的作用是：为其他对象提供一种代理以控制这个对象的访问。在某些情况下，一个客户不想或者不能直接引用另一个对象，
+     而代理对象可以在客户端和目标对象之间起到中介的作用。
+
+代理模式一般涉及到的角色有：
+
+      抽象角色：声明真实对象和代理对象的共同接口。
+
+      代理角色：代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提供与真实相同的接口以便在任何时刻都能替代真实对象。
+      同时，代理对象可以在执行真实对象操作时，附加其他的操作，相当于对真实对象进行封装。
+
+      真实角色：代理角色所代表的真实对象，是我们最终要引用的对象。
+
+
+动态代理类：
+
+       java动态代理类位于java.lang.reflect包下，一般主要涉及到以下两个类。
+
+       1、interfaace InvocationHandler：该接口只定义了一个方法：
+
+            public Object invoke(Object proxy, Method method, Object[] args)
+
+            在实际使用时，返回一个Object对象，第一个参Object proxy一般指的是代理类，method是被代理的方法，args为该方法的参数数组，
+            这个抽象方法在代理类中动态实现。
+
+        2、Proxy类：该类即为动态代理类，主要包含以下内容：
+
+             protected Proxy(InvocationHandler h)：构造函数，用于给内部的 h 赋值。
+
+             static Class<?> getProxyClass(ClassLoader loader,Class<?>... interfaces)：获得一个代理类，其中loader是类装载器，
+             interface是真实类所实现的全部接口。
+
+             public static Object newProxyInstance(ClassLoader loader,Class<?>[] interfaces,InvocationHandler h)：返回代理类的一个实例，
+             返回后的代理类可以当作被代理类使用。
+
+        3、所谓Dynamic Proxy（动态代理）是这样一种class：它是在运行时生成的class，在生成时，你必须提供一组interface给它，然后该class就宣称它
+           实现了这些interface。这个Dynamic Proxy其实就是一个Proxy，它不会替你实质性的工作，在生成它的实例时，你必须提供一个handler，由它接管实际的工作。
+
+        4、在使用动态代理类时，必须实现InvocationHandler接口。
+
+        5、通过这种方式，被代理的对象可以在运行时动态改变，需要控制的接口也可以在运行时改变，控制的方式也可以动态的改变。
+           从而实现了非常灵活的动态代理关系。
+
+
+
+
+

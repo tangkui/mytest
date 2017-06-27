@@ -1,0 +1,117 @@
+Servlet基础：
+
+    一、Servlet概念：
+
+           Servlet是基于java技术的Web组件，由容器管理并产生动态的内容。Servlet引擎作为WEB服务器的扩展提供支持Servlet的功能。
+           Servlet与客户端通过Servlet容器实现的请求/响应模型进行交互。
+
+           注意：Servlet不是从命令行启动的，而是由包含Java虚拟机的Web服务器进行加载。
+
+           1）、Servlet是按照Servlet规范编写的Java类。
+           2）、Servlet应用请求/响应模型，扩展了服务器的功能。
+
+
+           Servlet是Web应用程序中的一个组件。
+
+                Servlet是在JSP之前就存在的运行在服务端的一种java技术，它是用JAVA语言编写的服务器端程序在JSP技术出现之前，Servlet被广泛的应用来开发
+                动态的Web应用程序。
+
+                .如今在J2EE项目的开发中，Servlet仍然被广泛的使用。
+
+                 Servlet是一种独立于平台和协议的服务器端的Java技术，可以用来生成动态的Web页面与传统的CGI（公共网关接口）和许多其他类似CGI技术相比，
+                 Servlet具有更好的可移植性、更强大的功能，更少的投资，更高的效率，更好的安全性等特点
+
+    二、Servlet技术功能：
+
+            Servlet通过创建一个框架来扩展服务器的能力，以提供在Web上进行请求和响应的服务。当客户机发送请求至服务器时，服务器可以将请求信息发送给Servlet，
+            并让Servlet建立起服务器返回给客户机的响应。
+
+            当启动Web服务器或客户机第一次请求服务时，可以自动装入Servlet，之后，Servlet继续运行直到其他客户机发出请求。Servlet的功能涉及范围很广。
+
+            (1)创建并返回一个包含基于客户请求性质的动态内容的完整的HTML页面；
+            (2)创建可嵌入到现有HTML页面中的一部分HTML页面（HTML片段）；
+            (3)与其他服务器资源（包括数据库和基于Java的应用程序）进行通信；
+            (4)用多个客户机处理连接，接收多个客户机的输入，并将结果传递到多个客户机上，例如，Servlet可以是多参与者的游戏服务器；
+            (5)当允许在单连接方式下传送数据的情况下，在浏览器上打开服务器至applet的新连接，并将该连接保持在打开状态；
+               当允许客户机和服务器简单、高效地执行会话的情况下，applet也可以启动客户浏览器和服务器之间的连接，可以通过定制协议进行通信；
+            (6)将订制的处理提供给所有服务器的标准程序。
+
+    三、 Servlet技术特点
+
+            Servlet技术带给程序员最大的优势是它可以处理客户端传来的HTTP请求，并返回一个响应
+
+            Servlet是一个Java类，Java语言能够实现的功能，Servlet基本上都可以实现（图形界面除外）。总的来说，Servlet技术具有以下特点
+
+            1.高效。在服务器上仅有一个Java虚拟机在运行，它的优势在于当多个来自客户端的请求进行访问时，Servlet为每个请求分配一个线程而不是进程。
+
+            2.方便。Servlet提供了大量的实用工具例程，例如处理很难完成的HTML表达数据、读取和设置HTTP头、处理Cookie和跟踪会话等。
+
+            3.跨平台。Servlet是用Java类编写的，它可以在不同的操作系统平台和不同的应用服务器平台下运行。
+
+            4.灵活性和可扩展性。采用Servlet开发的Web应用程序，由于Java类的继承性、构造函数等特点，使其灵活应用，可随意扩展。
+
+            5、共享数据。Servlet之间通过共享数据可以很容易的数据库连接池。它能方便的实现管理用户请求，简化Session和获取前一页面信息的操作。
+               而在CGI之间通信则很差。由于每个CGI程序的调用都开始一个新的进程，调用间通信通常要通过文件进行，
+               因而相当缓慢。同一台服务器上的不同CGI程序之间的通信也相当麻烦。
+
+            7、安全。有些CGI版本有明显的安全弱点。即使是使用最新的标准和PERL等语言，系统也没有基本安全框架。
+               而Java定义有完整的安全机制，包括SSL\CA认证、安全政策等规范。
+
+    四、Servlet生命周期
+
+            跟客户端的Applet相似，Servlet（这里Servlet的概念又回到了最原始的含义）也遵循严格的生命周期。在每个Servlet实例的生命中有三种类型的事件，
+            这三种事件分别对应于由Servlet引擎所唤醒的三个方法：
+
+            1．init()。当Servlet第一次被装载时，Servlet引擎调用这个Servlet的init()方法，只调用一次。如果某个Sevlet需要特殊的初始化需要。
+            那么Servlet编写人员可以重写该方法来执行初始化任务。这是一个可选的方法。
+            如果某个Servlet不需要初始化，那么默认情况下将调用它父类的init方法。系统保证，在init方法成功完成以前，是不会调用Servlet去处理任何请求的。
+
+            2．service()。这是Servlet最重要的方法，是真正处理请求的地方。对于每个请求，Servlet引擎将调用Servlet的service方法，
+            并把Servlet请求对象和Servlet响应对象最为参数传递给它。
+
+            2．service()。这是Servlet最重要的方法，是真正处理请求的地方。对于每个请求，Servlet引擎将调用Servlet的service方法，
+            并把Servlet请求对象和Servlet响应对象最为参数传递给它。
+
+            3．destroy()。这是相对于init的可选方法，当Servlet即将被卸载时由Servlet引擎来调用，这个方法用来清除并释放在init方法中所分配的资源。
+
+            图：servlet生命周期.jpg
+
+
+    五、servlet工作过程
+
+            Web服务器在与客户端交互时.Servlet的工作过程是:
+
+            1.     在客户端对web服务器发出请求
+            2.     web服务器接收到请求后将其发送给Servlet
+            3.     Servlet容器为此产生一个实例对象并调用ServletAPI中相应的方法来对客户端HTTP请求进行处理,然后将处理的响应结果返回给WEB服务器.
+            4.     web服务器将从Servlet实例对象中收到的响应结构发送回客户端.
+
+            图：servlet工作过程
+
+    六、Servlet代码结构
+
+            该Servlet处理的是get请求，如果不理解HTTP，
+            可以把它看成是当用户在浏览器地址栏输入URL、单击Web页面中的链接、提交没有指定method的表单时浏览器所发出的请求
+
+            图：servlet代码结构
+
+
+
+            Servlet也可以很方便地处理post请求。post请求是提交那些指定了method=“post”的表单时所发出的请求。
+            若要创建一个Servlet，则应使创建的类继承HttpServlet类，并覆盖doGet()、doPost()方法之一或全部。doGet()和doPost()方法都有两个参数，
+            分别为HttpServletRequest类型和HttpServletResponse类型
+
+             HttpServletRequest提供访问有关请求的信息的方法，
+             例如表单数据、HTTP请求头等。HttpServletResponse除了提供用于指定HTTP应答状态(200，404等)、应答头(Content-Type，Set-Cookie等)的方法之外，
+             最重要的是它提供了一个用于向客户端发送数据的PrintWriter
+
+             对于简单的Servlet来说，它的大部分工作是通过println()方法生成向客户端发送的页面
+
+              注意：
+              doGet()方法和doPost()方法抛出两个异常，因此必须在声明中包含它们。
+              另外还必须导入java.io包(要用到PrintWriter等类)、javax.servlet包(要用到HttpServlet等类)以及javax.servlet.http包要
+              用到(HttpServlet Request类和HttpServletResponse类)。doGet()和doPost()这两个方法是由service()方法调用的，有时可能需要直接覆盖service()方法，
+              比如Servlet要处理Get和Post两种请求时
+              如果要开发一个可以处理HTTP请求的Servlet程序，则肯定要继承HttpServlet类，而且在自定义的Servlet类中还要重写HttpServlet类中提供的doGet()方法。
+              Servlet程序本身也是按照请求和应答的方式进行的，所以在doGet()方法中定义了两个参数，即HttpServletRequest和HttpServletResponse，
+              用来接收和回应用户的请求。

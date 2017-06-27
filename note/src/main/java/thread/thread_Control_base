@@ -30,7 +30,8 @@ JAVA中线程控制：线程同步，线程中断，线程合并，线程优先�
 
                 JAAV提供的线程支持类中，有三个方法与线程中断有关：
                         A、public void interrput();//中断线程
-                        B、public static boolean interrputed();//静态方法，用于测试当前线程是否是否已经中断（已经中断返回true，未被中断返回false），并将线程的中断状态清除。如果线程已经被中断，那么，调用两次interrputed,第一次返回true，第二次返回false，因为第一次返回true后会清楚中断状态。
+                        B、public static boolean interrputed();//静态方法，用于测试当前线程是否是否已经中断（已经中断返回true，未被中断返回false），
+                        并将线程的中断状态清除。如果线程已经被中断，那么，调用两次interrputed,第一次返回true，第二次返回false，因为第一次返回true后会清楚中断状态。
                         C、public boolean isInterrputed();//测试线程是否已经中断（中断：返回true，未中断：返回true）
 
 

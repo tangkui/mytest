@@ -1,0 +1,45 @@
+JAVA中IO流基础：
+
+
+第一步，首先，明确IO流中有两个主要的体系，即字节输入流（InputStream）、输出流（OutputStream）和字符输入流（Reader）、输出流（Writer）。
+其次，明确数据的来源和数据将要到达的目的地。
+
+第二步，明确将要操作的数据是否是纯文本数据。如果数据源是纯文本数据选Reader；数据源不是纯文本数据选择InputStream。
+如果数据目的地是纯文本数据就选择Writer；如果不是则选择OutputStream。
+
+数据源：
+    是纯文本：Reader
+    不是纯文本：InputStream
+
+数据目的地：
+    是纯文本：Writer
+    不是纯文本：OutputStream
+
+
+
+第三步，明确具体的设备。即数据源是从哪个设备来的：是硬盘就加File；是键盘用System.in（是一个InputStream对象）；是内存用数组；
+是网络用Socket流。同样目的是哪个设备：是硬盘就加File；是键盘用System.out（是一个OutoutStream对象）；是内存用数组；是网络用Socket流。
+
+明确设备：
+    数据源：
+        键盘：System.in
+        硬盘：FileXXX
+        内存：数组
+        网络：socket socket.getInputStream();
+
+    数据汇：
+        控制台：System.out
+        硬盘：FileXXX
+        内存：数组
+        网路：socket socket.getOutputStream();
+
+
+
+第四步，明确是否还需要其他额外功能呢，例如①是否需要较高的效率，即是否需要使用缓冲区，是就加上Buffered；
+②是否需要转换，是，就使用转换流，InputStreamReader 和OutputStreamWriter。
+
+明确额外功能：
+    1、需要转换？
+        是：使用转换流。InputStreamReader和OutputStreamWriter
+    2、需要高效？
+        是：使用缓冲流：Buffered

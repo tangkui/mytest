@@ -1,0 +1,110 @@
+JAVA中IO流基础：
+
+        IO流主要用于硬板、内存、键盘等处理设备上的数据操作，根据处理数据的数据类型不同可以分为：
+            字节流：抽象基类为InputStream(输入流)、OutputSteam(输出流)
+            字符流：抽象基类为Reader(输入流)、Writer(输出流)
+
+                                        BufferedReader
+                            Reader---
+                                        InputStramReader-----FileReader
+
+                字符流---
+
+                                        BufferedWriter
+                            Writer---
+                                        OutputStramWriter----FileWriter
+
+
+        IO流---
+
+                                            FileInputStream
+                            InputStraem---
+                                            FilterInputStream---BufferedInputStream
+
+                字节流---
+
+                                            FileOutputStream
+                            OutputStream---
+                                            FilterOutputStream---BufferedOutputStream
+
+
+        字符流和字节流的主要区别：
+
+            1、字节流读取的时候，读到一个字节就返回一个字节，字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时，
+               先去查指定的编码表，将查到的字符返回。
+            2、字节流可以处理所有类型的数据，如：图片，MP3，AVI视频文件，而字符流只能处理字符数据。主要是处理纯文本数据，就要优先考虑使用字符流，
+               除此之外都用字节流。
+
+
+        IO流主要可以分为节点流和处理流两大类。
+
+            1、节点流类型
+                该类型可以从或者向一个特点的地点或者节点读写数据。主要类型如下：
+                   类型	                    字符流	                            字节流
+                File(文件)             FileReader、FileWriter              FileInputStream、FileOutputSream
+                Memory Array           CharArrayReader、CharArrayWriter    ByteArrayInputStream、ByteArrayOutputSream
+                Memory String          StringReader、StringWriter            - - - - - - -
+                Pipe(管道)             PipedReader、PipedWriter            PipedInputSream、PipedOutputSream
+
+            2、处理流类型
+                该类型是对一个已存在的流的连接和封装，通过所封装的流的功能调用实现数据读写，处理流的构造方法总是要带着一个其他流对象
+                作为参数，一个流对象经过其他流的多次包装，叫做流的链接。主要可以分为以下几种：
+
+                1）、缓冲流：BufferedInputStream / BufferedOutputStream 和 BufferedReader / BufferedWriter 他可以提高对流的操作
+                写入缓冲区对象：
+                BufferedWriter bufw = new BufferedWriter(new FileWriter("buf.txt"));
+                读取缓冲区对象：
+                BufferedReader bufr = new BufferedReader( newFileReader("buf.txt"));
+
+                该类型的流有一个特有的方法：readLine();一次读一行，到行标记时，将行标记之前的字符数据作为字符串返回，当读到末尾时，返回null，其原理
+                还是与缓冲区关联的流对象的read方法，只不过每一次读取到一个字符，先不进行具体操作，先进行临时存储，当读取到回车标记时，将临时容器中储
+                存的数据一次性返回。
+
+                2）、  转换流：InputStreamReader / OutputStreamWriter
+                该类型是字节流和字符流之间的桥梁，该流对象中可以对读取到的字节数据进行指定编码的编码转换。
+                构造函数主要有：
+                InputStreamReader(InputStream); //通过构造函数初始化，使用的是本系统默认的编码表GBK。
+                InputStreamReader(InputStream,String charSet); //通过该构造函数初始化，可以制定指定编码表。
+                OutputStreamWriter(OutputStream); //通过构造函数初始化，使用的是本系统默认的编码表GBK。
+                OutputStreamWriter(OutputStream); //通过该构造函数初始化，可以指定编码表。
+
+                注意：在使用FileReader操作文本数据时，该对象使用的是默认的编码表，即：
+                FileReader fr = new FileReader("a.txt");与 InputStreamReader isr = new InputStreamReader(new FileInputStream("a.txt"));的意义相同。
+                如果使用指定编码表时，必须使用转换流，即如果a.txt中的文件中的字符数据是通过utf-8的形式编码，那么在读取时，就必须指定编码表，那么转换
+                流是必须的。即：InputStreamReader isr = new InputStreamReader(new FileInputStream("a.txt"),"utf-8");
+
+
+                3）、数据流：DataInputStream / DataOutputStream
+                该数据流可以方便地对一些基本类型数据进行直接的存储和读取，不需要再进一步转换，通常只要操作基本类型数据的数据，就需要通过DataStream进行包装。
+                构造方法：
+                DataInputStreamReader(InputStream);
+                DataInputStreamWriter(OutputStream);
+                方法举例：
+                int readInt();//一次读取四个字节，并将其转成int值。
+                writeInt(int);//一次写入四个字节，注意和write(int)不同，write(int)只将改整数的最低一个8位写入，剩余三个8位丢失。
+                hort readShort();
+                String readUTF();//按照utf-8修改版读取字符，注意，它只能读writeUTF()写入的数据。
+                writeUTF(String);//按照utf-8修改版将字符数据进行存储，只能通过readUTF读取。
+
+                注意：在使用数据流读取或者存储数据时，需要有一定的顺序，即某个类型的数据先写入就必须先读出，服从先进先出原则。
+
+
+                4）、打印流：PrintStream、PrintWriter
+                PrintStream是一个字节打印流，System.out对应的类型就是PrintStream，它的构造函数可以接受三种数据类型的值：
+                a. 字符串路径
+                b. File对象
+                c. OutputStream
+
+                PrintStreamWriter是一个字符打印流，它的构造函数可以接受四种类型的值：
+                a. 字符串路径
+                b. File对象
+                c. OutputStream
+                d. Writer
+                对于a、b类型的数据，可以指定编码表，也就是字符集，对于c、d类型的数据，可以指定自动刷新，当该刷新为true时，只有三个方法可以用：
+                print、printf、format。
+
+                5）、对象流：ObjectInputStream、ObjectOutputSteeam
+                该类型的流可以把类作为一个整体进行存取，主要方法有：
+                Object readObject();该方法抛出异常：ClassNotFoundException。
+                void writerObject(Object); 被写入的对象必须实现一个接口：Serializable，否则会抛出NotSerializableException。
+

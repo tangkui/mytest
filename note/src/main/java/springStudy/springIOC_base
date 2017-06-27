@@ -1,0 +1,18 @@
+SpringIOC：依赖注入（Inverse Of Control），依赖注入（Dependency Injection）
+
+    1、概念：
+        所谓IoC，对于spring框架来说，就是由spring来负责控制对象的生命周期和对象间的关系。
+        IoC的一个重点是在系统运行中，动态的向某个对象提供它所需要的其他对象。这一点是通过DI（Dependency Injection，依赖注入）来实现的。
+        控制反转IoC(Inversion of Control)，是一种设计思想，DI(依赖注入)是实现IoC的一种方法
+        IoC是Spring框架的核心内容，使用多种方式完美的实现了IoC，可以使用XML配置，也可以使用注解，新版本的Spring也可以零配置实现IoC。
+        Spring容器在初始化时先读取配置文件，根据配置文件或元数据创建与组织对象存入容器中，程序使用时再从Ioc容器中取出需要的对象。
+
+    2、规范：
+        对象和对象关系怎么表示？
+            可以用 xml ， properties 文件等语义化配置文件表示。
+        描述对象关系的文件存放在哪里？
+            可能是 classpath ， filesystem ，或者是 URL 网络资源， servletContext 等。
+
+    3、三种注入方式：
+        依赖注入的三种实现类型：接口注入、 Setter 注入和构造器注入。
+

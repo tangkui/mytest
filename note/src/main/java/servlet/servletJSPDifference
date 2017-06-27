@@ -1,0 +1,26 @@
+Servlet和JSP的区别：
+
+        1.jsp经编译后就变成了Servlet.(JSP的本质就是Servlet，JVM只能识别java的类，不能识别JSP的代码,Web容器将JSP的代码编译成JVM能够识别的java类)
+        2.jsp更擅长表现于页面显示,servlet更擅长于逻辑控制.
+        3.Servlet中没有内置对象，Jsp中的内置对象都是必须通过HttpServletRequest对象，HttpServletResponse对象以及HttpServlet对象得到.
+
+        小结：JSP在本质上就是SERVLET,但是两者的创建方式不一样.Servlet完全是JAVA程序代码构成擅长于流程控制和事务处理而通过Servlet
+              来生成动态网页;JSP由HTML代码和JSP标签构成，可以方便地编写动态网页
+
+        简单的说，SUN首先发展出SERVLET，其功能比较强劲，体系设计也很先进，只是，它输出HTML语句还是采用了老的CGI方式，是一句一句输出，所以，
+        编写和修改HTML非常不方便。 后来SUN推出了类似于ASP的镶嵌型的JSP，把JSP TAG镶嵌到HTML语句中，这样，就大大简化和方便了网页的设计和修改。
+        新型的网络语言如ASP，PHP，JSP都是镶嵌型的SCRIPT语言。
+
+        1、JSP在本质上就是SERVLET,但是两者的创建方式不一样.
+        2、Servlet完全是JAVA程序代码构成，擅长于流程控制和事务处理，通过Servlet来生成动态网页很不直观.
+        3、JSP由HTML代码和JSP标签构成，可以方便地编写动态网页.
+
+         因此在实际应用中采用Servlet来控制业务流程，而采用JSP来生成动态网页.在struts框架中，JSP位于MVC设计模式的视图层，而Servlet位于控制层.
+
+        1、JSP是Servlet技术的扩展，本质上就是Servlet的简易方式。
+        2、JSP编译后是“类servlet”。
+        3、Servlet和JSP最主要的不同点在于，Servlet的应用逻辑是在Java文件中，并且完全从表示层中的HTML里分离开来。
+           而JSP是Java和HTML组合成一个扩展名为.jsp的文件。
+        4、JSP侧重于视图，Servlet主要用于控制逻辑。
+
+

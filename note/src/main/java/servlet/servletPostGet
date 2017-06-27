@@ -1,0 +1,57 @@
+Servlet中的GET和POST之间的区别：
+
+   get和post这是http协议的两种方法，另外还有head,  delete等
+   这两种方法有本质的区别，get只有一个流，参数附加在url后，大小个数有严格限制且只能是字符串。post的参数是通过另外的流传递的，不通过url，所以可以很大，
+   也可以传递二进制数据，如文件的上传。
+
+   在servlet开发中，以doGet()和doPost()分别处理get和post方法。
+   另外还有一个doService(),  它是一个调度方法，当一个请求发生时，首先执行doService(),不管是get还是post。在HttpServlet这个基类中实现了一个角度，
+   首先判断是请求时get还是post,如果是get就调用doGet(),  如果是post就调用doPost()。你也可以直接过载doService()方法，这样你可以不管是get还是post。
+   都会执行这个方法。
+   ---------------------------------------------------------------
+
+   1.通过表单提交到的servlet,看form的method是get还是post
+   2.通过链接访问的servlet,doGet
+   3.直接在ie地址栏中键入的servlet地址,doGet
+
+   一般只要实现一个doGet,再另外一个doPost里面调用doGet(resq,resp),resq和resd是doPost的参数.
+   ---------------------------------------------------------------
+
+   可以互相调用.
+   doGet()  和doPost()方法，前者处理你表单提交来的method=get的请求,后者处理method=post  的请求
+
+   GET和POST的本质区别是什么？
+
+           使用GET，form中的数据将编码到url中，而使用POST的form中的数据则在http协议的header中传输。在使用上，
+           当且仅当请求幂等（字面意思是请求任意次返回同样的结果，本质是请求本身不会改变服务器数据和状态）时使用GET，
+           当请求会改变服务器数据或状态时（更新数据，上传文件），应该使用POST。
+
+   区别使用GET，POST意义何在？
+          重复访问使用GET方法请求的页面，浏览器会使用缓存处理后续请求。使用POST方法的form提交时，浏览器基于POST将产生永久改变的假设，
+          将让用户进行提交确认。当编成人员正确的使用GET，POST后，浏览器会给出很好的缓存配合，时响应速度更快。
+
+   在form提交阶段的差别
+            form提交的第一步是创建数据集，并根据ENCTYPE对数据集进行编码。ENCTYPE有两个值：multipart/form-data，application/x-www-form-urlencoded（默认值），
+            前者可同时用于GET，POST，后者只用于POST。然后进行数据传输--对于GET方法，数据集使用content type application/x-www-form-urlencoded编码并附在url后面，
+            在这种模式下，数据严格限制为ASCII码；对于POST，使用content type编码字符集并将其构造成消息发送。
+
+   在服务器处理部分的差别
+           原则上，除理GET和POST请求是没有分别的。但由于数据通过不同的方法编码，需要有不同的解码机制。所以，方法变化将导致处理请求的代码变化。比如对于cgi，
+           处理GET时通过环境变量获得参数，处理POST请求时则通过标准输入(stdin) 获得数据。
+
+   从使用经验，我们有如下总结：
+
+   1、get是把参数数据队列加到提交表单的ACTION属性所指的URL中，值和表单内各个字段一一对应，在URL中可以看到。post是通过HTTP post机制，
+   将表单内各个字段与其内容放置在HTML HEADER内一起传送到ACTION属性所指的URL地址。用户看不到这个过程。
+   2、对于get方式，服务器端用Request.QueryString获取变量的值，对于post方式，服务器端用Request.Form获取提交的数据。两种方式的参数都可以用Request来获得。
+   3、get传送的数据量较小，不能大于2KB。post传送的数据量较大，一般被默认为不受限制。但理论上，IIS4中最大量为80KB，IIS5中为100KB。
+   4、get安全性非常低，post安全性较高。
+   5、<form method="get" action="a.asp?b=b">跟<form method="get" action="a.asp">是一样的，也就是说，action页面后边带的参数列表会被忽视；
+   而<form method="post" action="a.asp?b=b">跟<form method="post" action="a.asp">是不一样的。
+
+
+   另外
+
+   Get请求有如下特性：它会将数据添加到URL中，通过这种方式传递到服务器，通常利用一个问号？代表URL地址的结尾与数据参数的开端，
+   后面的参数每一个数据参数以“名称=值”的形式出现，参数与参数之间利用一个连接符&来区分。
+   Post请求有如下特性：数据是放在HTTP主体中的，其组织方式不只一种，有&连接方式，也有分割符方式，可隐藏参数，传递大批数据，比较方便。
